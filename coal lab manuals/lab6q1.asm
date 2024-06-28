@@ -1,0 +1,166 @@
+[org 0x0100]
+	jmp start
+
+message1:	db 'fatima'
+length1:	dw 6
+message2:	db 'javed'
+length2:	dw 5
+message3:	db 'coal'
+length3:	dw 4
+
+clrscr:	push ax
+        push di
+        push es
+        mov ax,0xb800
+        mov es,ax
+        mov di,0
+
+    nextloc:
+                mov word[es:di],0x0720
+                add di,2
+                cmp di,4000
+                jne nextloc
+        pop es
+        pop di
+        pop ax
+        ret
+
+
+
+p1:	push bp
+		mov bp, sp
+		push es
+		push ax
+		push cx
+		push si
+		push di
+
+		mov ax, 0xb800
+		mov es, ax
+		mov al, 80
+		mul byte [bp+10]
+		add ax, [bp+12]
+		shl ax, 1
+		mov di, ax
+		mov si, [bp+6]
+		mov cx, [bp+4]
+		mov ah, [bp+8]
+
+n1:	mov al, [si]
+		mov [es:di], ax
+		add di, 2
+		add si, 1
+		loop n1
+
+		pop di
+		pop si
+		pop cx
+		pop ax
+		pop es
+		pop bp
+		ret 4		
+
+p2:	push bp
+		mov bp, sp
+		push es
+		push ax
+		push cx
+		push si
+		push di
+
+		mov ax, 0xb800
+		mov es, ax
+		mov al, 80
+		mul byte [bp+10]
+		add ax, [bp+12]
+		shl ax, 1
+		mov di, ax
+		mov si, [bp+6]
+		mov cx, [bp+4]
+		mov ah, [bp+8]
+
+next2:	mov al, [si]
+		mov [es:di], ax
+		add di, 2
+		add si, 1
+		loop next2
+
+		pop di
+		pop si
+		pop cx
+		pop ax
+		pop es
+		pop bp
+		ret 4
+
+p3:	push bp
+		mov bp, sp
+		push es
+		push ax
+		push cx
+		push si
+		push di
+
+		mov ax, 0xb800
+		mov es, ax
+		mov al, 80
+		mul byte [bp+10]
+		add ax, [bp+12]
+		shl ax, 1
+		mov di, ax
+		mov si, [bp+6]
+		mov cx, [bp+4]
+		mov ah, [bp+8]
+
+n3:	mov al, [si]
+		mov [es:di], ax
+		add di, 2
+		add si, 1
+		loop n3
+
+		pop di
+		pop si
+		pop cx
+		pop ax
+		pop es
+		pop bp
+		ret 4
+
+start:		call clrscr
+		mov ax, 20
+		push ax
+		mov ax, 10
+		push ax
+		mov ax, 0x03
+		push ax
+		mov ax, message1
+		push ax
+		push word [length1]
+		call p1
+		mov ax, 30
+		push ax
+		mov ax, 20
+		push ax
+		mov ax, 0x57
+		push ax
+		mov ax, message2
+		push ax
+		push word [length2]
+		call p2
+		mov ax, 35
+		push ax
+		mov ax, 15
+		push ax
+		mov ax, 0x9c
+		push ax
+		mov ax, message3
+		push ax
+		push word [length3]
+		call p3
+		jmp end
+
+end:		mov ah,0x1
+		int 0x21
+
+		mov ax, 0x4c00
+		int 0x21
